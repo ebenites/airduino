@@ -1,14 +1,77 @@
 $(function(){
     $('input[placeholder]').placeholder(/*{ color: '#bada55' }*/);
     $( document ).tooltip();
-    $.ionSound({
-            sounds: [{name: "quake"}], //bell_ring, quake, sirena, tornado. //http://soundbible.com/tags-alert.html, http://media.io/
-            path: "js/ion.sound/sounds/",
-            preload: true
-    });
-    $('#menu a').colorbox({iframe:true, width:'520px', height:'75%', opacity: 0.5});
 });
 function popup(message, func){
     ($('#popup').length?$('#popup'):$('<div id="popup"/>').html('<span class="button"><span>X</span></span>'+message)).bPopup({autoClose: 2000,modalColor:"#fff", opacity:.7, closeClass:'button', position: ['50%', '50%'], onClose: function() { if(func)func(); }});  
 }
-
+function info(message){
+    $('<div/>').html(message).dialog({
+        dialogClass: 'dialog-info',
+        title: 'INFORMACIÓN',
+        modal: true,
+        resizable: false,
+        draggable: true,
+        closeOnEscape: true,
+        width: 300,
+        height: 'auto',
+        show: { effect: "fade", duration: 500 },
+        hide: { effect: "fade", duration: 500 },
+        close:function(){
+            $(this).dialog('destroy');
+            $(this).remove();
+        },
+        open:function(){
+            var dialogo = $(this);
+            setTimeout(function(){
+                $(dialogo).dialog('close');
+            },3000)
+        }
+    });
+    
+}
+function error(message){
+    $('<div/>').html(message).dialog({
+        dialogClass: 'dialog-error',
+        title: 'ERROR',
+        modal: true,
+        resizable: false,
+        draggable: true,
+        closeOnEscape: true,
+        width: 300,
+        height: 'auto',
+        show: { effect: "bounce", duration: 800 },
+        hide: { effect: "fade", duration: 500 },
+        close:function(){
+            $(this).dialog('destroy');
+            $(this).remove();
+        }
+    });
+}
+function confirm(message, callback){
+    $('<div/>').html(message).dialog({
+        dialogClass: 'dialog-info',
+        title: 'CONFIRMAR',
+        modal: true,
+        resizable: false,
+        draggable: true,
+        closeOnEscape: true,
+        width: 300,
+        height: 'auto',
+        show: { effect: "highlight", duration: 500 },
+        hide: { effect: "fade", duration: 500 },
+        buttons: {
+            "OK": function() {
+                if(callback)callback();
+                $(this).dialog('close');
+            },
+            "Cancelar": function(){
+                $(this).dialog('close');
+            }
+        },
+        close:function(){
+            $(this).dialog('destroy');
+            $(this).remove();
+        }
+    });
+}

@@ -2,7 +2,7 @@
 SQLyog Ultimate v9.63 
 MySQL - 5.5.24-log : Database - airdruino
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -16,48 +16,49 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`airdruino` /*!40100 DEFAULT CHARACTER S
 
 USE `airdruino`;
 
-/*Table structure for table `arduino` */
+/*Table structure for table `dispositivo` */
 
-DROP TABLE IF EXISTS `arduino`;
+DROP TABLE IF EXISTS `dispositivo`;
 
-CREATE TABLE `arduino` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dispositivo` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_UNIQUE` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-/*Data for the table `arduino` */
+/*Data for the table `dispositivo` */
 
 /*Table structure for table `grupo` */
 
 DROP TABLE IF EXISTS `grupo`;
 
 CREATE TABLE `grupo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `grupo` */
 
-insert  into `grupo`(`id`,`nombre`) values (1,'Pabellón 1'),(2,'Pabellón 2');
+insert  into `grupo`(`id`,`nombre`) values (10,'Pabellón 1');
 
 /*Table structure for table `pin` */
 
 DROP TABLE IF EXISTS `pin`;
 
 CREATE TABLE `pin` (
-  `arduino_id` int(11) NOT NULL,
-  `id` int(11) NOT NULL,
-  `grupo_id` int(11) NOT NULL,
+  `dispositivo_id` int(10) NOT NULL,
+  `id` int(10) NOT NULL,
+  `grupo_id` int(10) DEFAULT NULL,
   `nombre` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
   `estado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '0',
-  PRIMARY KEY (`arduino_id`,`id`),
-  KEY `fk_pin_arduino_idx` (`arduino_id`),
-  KEY `fk_pin_grupo1_idx` (`grupo_id`),
-  CONSTRAINT `fk_pin_arduino` FOREIGN KEY (`arduino_id`) REFERENCES `arduino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  PRIMARY KEY (`dispositivo_id`,`id`),
+  KEY `fk_pin_dispositivo_idx` (`dispositivo_id`),
+  KEY `fk_pin_grupo_idx` (`grupo_id`),
+  CONSTRAINT `fk_pin_dispositivo` FOREIGN KEY (`dispositivo_id`) REFERENCES `dispositivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_pin_grupo1` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

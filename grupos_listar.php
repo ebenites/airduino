@@ -17,15 +17,15 @@ try{
     <tr>
         <td>ID</td>
         <td>NOMBRE</td>
-        <td><img src="img/reload.png" onclick="listarGrupo()" title="Recargar"/></td>
+        <td><img src="img/reload.png" onclick="listar()" title="Recargar"/></td>
     </tr>
   <?php
     foreach($lista as $grupo){
   ?>
     <tr>
         <td style="text-align: center"><?php echo $grupo->id?></td>
-        <td><span onclick="editarGrupo(this)"><?php echo $grupo->nombre?></span><input type="text" value="<?php echo $grupo->nombre?>" size="40" maxlength="40" onblur="actualizarGrupo(this, '<?php echo $grupo->id?>')" style="display: none"/></td>
-        <td style="text-align: center"><img src="img/trash.png" onclick="eliminarGrupo('<?php echo $grupo->id?>')" title="Eliminar"/></td>
+        <td><span onclick="editar(this)"><?php echo $grupo->nombre?></span><input type="text" value="<?php echo $grupo->nombre?>" size="40" maxlength="40" onblur="actualizar(this, '<?php echo $grupo->id?>')" style="display: none"/></td>
+        <td style="text-align: center"><img src="img/trash.png" onclick="eliminar('<?php echo $grupo->id?>')" title="Eliminar"/></td>
     </tr>
   <?php
     }

@@ -29,6 +29,8 @@
         <script type="text/javascript">
             $(function () {
 
+                $('#menu a').colorbox({iframe:true, width:'520px', height:'75%', opacity: 0.5});
+
                 $("#content").smartupdater({
                         url : 'getdata.php?IP=192.168.116.23', //this.id
                         minTimeout: 3000, // 3 seconds

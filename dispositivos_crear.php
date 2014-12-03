@@ -2,10 +2,19 @@
 require_once './config.php';
 try{
     
-    if(!isset($_POST['nombre']) || $_POST['nombre'] == '')
+    if(!isset($_POST['ip']) || $_POST['ip'] == '')
         throw new Exception("No se especificado los parametros requeridos");
-	
-    GrupoDAO::crear($_POST['nombre']);
+    
+    if(!filter_var($_POST['ip'], FILTER_VALIDATE_IP))
+        throw new Exception("IP no es válida");
+    
+    $ip = $_POST['ip'];
+    $url = "http://$ip/?status";
+    
+    $response = \Httpful\Request::get($url)->send();
+    $pines = $response->body;
+    
+    DispositivoDAO::crear($ip, $pines);
     
     echo json_encode($data = array('type' => 'success', 'message' => 'Registro guardado satisfactoriamente'));
     
