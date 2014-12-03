@@ -1,0 +1,152 @@
+#include <SPI.h>
+#include <Ethernet.h>
+ 
+#include <Servo.h>
+Servo myservo;  // create servo object to control a servo
+ 
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEF }; //physical mac address
+byte ip[] = { 192, 168, 116, 23 }; // ip in lan
+byte gateway[] = { 192, 168, 116, 1 }; // internet access via router
+byte subnet[] = { 255, 255, 255, 0 }; //subnet mask
+int estado = 0;
+String response;
+EthernetServer server(80); //server port
+
+String readString;
+
+void setup(){
+  //Declarando pines de control
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  //Setting estado a todo los pines
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+  //Start Ethernet
+  Ethernet.begin(mac, ip, gateway, subnet);
+  server.begin();
+  //Enable serial data print
+  Serial.begin(9600);
+  Serial.println("Servidor Airdruino inicializado!"); // so I can keep track of what is loaded
+}
+ 
+void loop(){
+  // Create a client connection
+  EthernetClient client = server.available();
+  //Serial.println("Cliente activo");
+  if (client) {
+    //while (client.connected()) {
+      //Serial.println("Esperando conexion");
+      if (client.available()) {
+        //Serial.println("Cliente conectado...");
+        char c = client.read();
+ //Serial.println("Leyendo data");
+  //Serial.println("-----------------------");
+   // Serial.println(c);
+   // Serial.println("-----------------------");
+        //read char by char HTTP request
+        if (readString.length() < 100) {
+ 
+          //store characters to string
+          readString += c;
+          //Serial.print(c);
+        }
+ //Serial.println("iniciando IF");
+        //if HTTP request has ended
+        if (c == '\n') {
+  //Serial.println("Ingresando");
+          ///////////////
+          //Serial.println(readString); //print to serial monitor for debuging
+ 
+          client.println("HTTP/1.1 200 OK"); //send new page
+          client.println("Content-Type: application/json");
+          
+          ///////////////////// control arduino pin
+          if(readString.indexOf("?lighton") >0)//checks for on
+          {
+            
+            client.println("Content-Length: 12");
+            client.println();
+            
+            client.println("{\"status\":1}");
+            //stopping client
+            //client.stop();
+            
+            digitalWrite(2, LOW);    // set pin 4 high
+            digitalWrite(3, LOW);    // set pin 4 high
+            digitalWrite(4, LOW);    // set pin 4 high
+            digitalWrite(5, LOW);    // set pin 4 high
+            Serial.println("Led On");
+            
+          }
+          else if(readString.indexOf("?lightoff") >0)//checks for off
+          {
+            client.println("Content-Length: 12");
+            client.println();
+          
+            client.println("{\"status\":1}");
+            //stopping client
+            //client.stop();
+            
+            digitalWrite(2, HIGH);    // set pin 4 low
+            digitalWrite(3, HIGH);    // set pin 4 low
+            digitalWrite(4, HIGH);    // set pin 4 low
+            digitalWrite(5, HIGH);    // set pin 4 low
+            Serial.println("Led Off");
+            
+          }
+          else if(readString.indexOf("?status") >0)//checks for off
+          {
+            response = String("[");
+            
+            estado = digitalRead(2);
+            
+            response += ("{\"pin\":2, \"status\":");
+            response += estado;
+            response += "},";
+            
+            estado = digitalRead(3);
+            
+            response += ("{\"pin\":3, \"status\":");
+            response += estado;
+            response += "},";
+            
+            estado = digitalRead(4);
+            
+            response += ("{\"pin\":4, \"status\":");
+            response += estado;
+            response += "},";
+            
+            estado = digitalRead(5);
+            
+            response += ("{\"pin\":5, \"status\":");
+            response += estado;
+            response += "}";
+            
+            response += "]";
+            String length = String(response.length());
+            Serial.println("Content-Length: "+length);
+            client.println("Content-Length: "+length);
+            client.println();
+            
+            client.println(response);
+            
+            Serial.println("Get Status:"+response);
+            //stopping client
+            //client.stop();
+            
+          }
+          client.flush(); 
+          Serial.println("FIN CONDICIONES");
+          //clearing string for next read
+          readString="";
+          //delay(1);
+          
+        }
+      }
+    //}
+  }
+}
