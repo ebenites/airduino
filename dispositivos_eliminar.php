@@ -5,7 +5,7 @@ try{
     if(!isset($_GET['id']))
         throw new Exception("No se especificado los parametros requeridos");
 	
-    DispositivoDAO::eliminar($_GET['id']);
+    DispositivoDAO::eliminar((int)$_GET['id']);
     
     echo json_encode($data = array('type' => 'success', 'message' => 'Registro eliminado satisfactoriamente'));
     

@@ -200,7 +200,7 @@ form.ligthform label{
     line-height: 30px;
     margin-right: 5px;
 }
-form.ligthform input{
+form.ligthform input, form.ligthform select{
     margin-right: 15px;
 }
 form.ligthform input[type='text'], form.ligthform input[type='password'], form.ligthform input[type='email'], form.ligthform input[type='date'], form.ligthform input[type='nombre'], form.ligthform input[type='tel'], form.ligthform input[type='url'], form.ligthform textarea, form.ligthform select{

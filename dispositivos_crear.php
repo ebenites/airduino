@@ -14,9 +14,9 @@ try{
     $response = \Httpful\Request::get($url)->send();
     $pines = $response->body;
     
-    DispositivoDAO::crear($ip, $pines);
+    $id = DispositivoDAO::crear($ip, $pines);
     
-    echo json_encode($data = array('type' => 'success', 'message' => 'Registro guardado satisfactoriamente'));
+    echo json_encode($data = array('type' => 'success', 'message' => 'Registro guardado satisfactoriamente', 'id' => $id));
     
 }catch(Exception $e){
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);

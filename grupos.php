@@ -23,19 +23,12 @@
                 $('#form').ajaxForm({
                     clearForm: true,
                     dataType: 'json',
-                    beforeSubmit: function(){
-                        $('input[type="submit"]').attr('disabled', 'disabled').after($('<span id="loader-1" />'));
-                    },
                     success: function(data){
                         //console.log(data.message)
-                        $('input[type="submit"]').removeAttr('disabled');
-                        $('#loader-1').remove();
                         info(data.message);
                         listar();
                     },
                     error: function(ajax){
-                        $('input[type="submit"]').removeAttr('disabled');
-                        $('#loader-1').remove();
                         error(ajax.responseText);
                     }
                 });
@@ -43,11 +36,11 @@
             });
             
             function listar(){
-                $('#lista').load('dispositivos_listar.php');
+                $('#lista').load('grupos_listar.php');
             }
             function eliminar(id){
-                confirm('¿Realmente desea eliminar el registro?<br/>(Se eliminarán los pines asociados)', function(){
-                    $.get('dispositivos_eliminar.php', {'id': id}, function(data){
+                confirm('¿Realmente desea eliminar el registro?', function(){
+                    $.get('grupos_eliminar.php', {'id': id}, function(data){
                         info(data.message);
                         listar();
                     }, 'json').fail(function(ajax) {
@@ -59,18 +52,19 @@
                 $(input).hide().next().show().focus().select();
             }
             function actualizar(input, id){
-                $.post('dispositivos_actualizar.php', {'id': id, 'nombre': $(input).val()}, function(data){
-                    $(input).hide().prev().show().text($(input).val());
+                $.post('grupos_actualizar.php', {'id': id, 'nombre': $(input).val()}, function(data){
+                    
                 }, 'json');
+                $(input).hide().prev().show().text($(input).val());
             }
         </script>
         
     </head>
     <body>
-        <form id="form" method="post" action="dispositivos_crear.php" class="ligthform">
+        <form id="form" method="post" action="grupos_crear.php" class="ligthform">
             <fieldset>
-                <legend>Registro de dispositivo</legend>
-                <input type="text" name="ip" size="20" maxlength="15" autocomplete="on" placeholder="Dirección IP" required=""/>
+                <legend>Registro de grupo</legend>
+                <input type="text" name="nombre" size="40" maxlength="40" autocomplete="off" placeholder="Nombre de grupo" required=""/>
                 <input type="submit" value="Registrar"/>
             </fieldset>
         </form>

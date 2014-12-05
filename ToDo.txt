@@ -1,0 +1,13 @@
+apagado:
+	rojo con negro
+
+login
+disable en error de conexion
+creditos
+    carlos arroyo
+    melo
+    robert Lord druino
+    yony
+iconos
+  configurar
+  desactivar terminal

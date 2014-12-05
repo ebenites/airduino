@@ -14,6 +14,27 @@ class DispositivoDAO {
         return $lista;
     }
     
+    public static function obtener($id) {
+        $pdo = Conexion::getConexion();
+        $query = "SELECT * FROM dispositivo WHERE id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        if ($registro = $stmt->fetch(PDO::FETCH_OBJ)) {
+            $lista = array();
+            $query = "SELECT * FROM pin WHERE dispositivo_id = :id ORDER BY id";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            while ($subregistro = $stmt->fetch(PDO::FETCH_OBJ)) {
+                $lista[] = $subregistro;
+            }
+            $registro->pines = $lista;
+            return $registro;
+        }
+        return NULL;
+    }
+    
     public static function crear($ip, $pines) {
         $pdo = Conexion::getConexion();
         try{
@@ -33,6 +54,7 @@ class DispositivoDAO {
             }
             
             $pdo->commit();
+            return $dispositivo_id;
         } catch (PDOException $e){
             $pdo->rollBack();
             throw $e;
@@ -61,13 +83,34 @@ class DispositivoDAO {
         }
     }
     
-    public static function actualizar($id, $nombre) {
-//        $pdo = Conexion::getConexion();
-//        $query = "UPDATE grupo SET nombre=:nombre WHERE id = :id";
-//        $stmt = $pdo->prepare($query);
-//        $stmt->bindParam(':nombre', $nombre);
-//        $stmt->bindParam(':id', $id);
-//        $stmt->execute();
+    public static function actualizarNombre($dispositivo_id, $id, $nombre) {
+        $pdo = Conexion::getConexion();
+        $query = "UPDATE pin SET nombre=:nombre WHERE dispositivo_id = :dispositivo_id AND id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':dispositivo_id', $dispositivo_id);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+    
+    public static function actualizarGrupo($dispositivo_id, $id, $grupo_id) {
+        $pdo = Conexion::getConexion();
+        $query = "UPDATE pin SET grupo_id=:grupo_id WHERE dispositivo_id = :dispositivo_id AND id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':grupo_id', $grupo_id);
+        $stmt->bindParam(':dispositivo_id', $dispositivo_id);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+    
+    public static function actualizarEstado($dispositivo_id, $id, $estado) {
+        $pdo = Conexion::getConexion();
+        $query = "UPDATE pin SET estado=:estado WHERE dispositivo_id = :dispositivo_id AND id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':estado', $estado);
+        $stmt->bindParam(':dispositivo_id', $dispositivo_id);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
     }
     
 }

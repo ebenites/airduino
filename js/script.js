@@ -30,7 +30,7 @@ function info(message){
     });
     
 }
-function error(message){
+function error(message, callback){
     $('<div/>').html(message).dialog({
         dialogClass: 'dialog-error',
         title: 'ERROR',
@@ -45,6 +45,7 @@ function error(message){
         close:function(){
             $(this).dialog('destroy');
             $(this).remove();
+            if(callback)callback();
         }
     });
 }
@@ -62,8 +63,8 @@ function confirm(message, callback){
         hide: { effect: "fade", duration: 500 },
         buttons: {
             "OK": function() {
-                if(callback)callback();
                 $(this).dialog('close');
+                if(callback)callback();
             },
             "Cancelar": function(){
                 $(this).dialog('close');
