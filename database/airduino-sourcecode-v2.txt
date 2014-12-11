@@ -71,14 +71,19 @@ void loop(){
             client.println("Content-Length: 12");
             client.println();
             
+            if(readString.indexOf("&pin2") >0)
+              digitalWrite(2, LOW);    
+            else if(readString.indexOf("&pin3") >0)
+              digitalWrite(3, LOW);    
+            else if(readString.indexOf("&pin4") >0)
+              digitalWrite(4, LOW);    
+            else if(readString.indexOf("&pin5") >0)
+              digitalWrite(5, LOW);    
+              
             client.println("{\"status\":1}");
             //stopping client
             //client.stop();
             
-            digitalWrite(2, LOW);    // set pin 4 high
-            digitalWrite(3, LOW);    // set pin 4 high
-            digitalWrite(4, LOW);    // set pin 4 high
-            digitalWrite(5, LOW);    // set pin 4 high
             Serial.println("Led On");
             
           }
@@ -86,19 +91,24 @@ void loop(){
           {
             client.println("Content-Length: 12");
             client.println();
-          
+            
+            if(readString.indexOf("&pin2") >0)
+              digitalWrite(2, HIGH);    
+            if(readString.indexOf("&pin3") >0)
+              digitalWrite(3, HIGH);    
+            if(readString.indexOf("&pin4") >0)
+              digitalWrite(4, HIGH);   
+            if(readString.indexOf("&pin5") >0)
+              digitalWrite(5, HIGH);    
+            
             client.println("{\"status\":1}");
             //stopping client
             //client.stop();
             
-            digitalWrite(2, HIGH);    // set pin 4 low
-            digitalWrite(3, HIGH);    // set pin 4 low
-            digitalWrite(4, HIGH);    // set pin 4 low
-            digitalWrite(5, HIGH);    // set pin 4 low
             Serial.println("Led Off");
             
           }
-          else if(readString.indexOf("?status") >0)//checks for off
+          else if(readString.indexOf("?status") >0)//checks for status
           {
             response = String("[");
             

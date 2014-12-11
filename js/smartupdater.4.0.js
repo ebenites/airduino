@@ -54,6 +54,7 @@
 						maxFailedRequestsCb	: false, 	// falure callback function
 						httpCache 			: false,	// http cache 
 						rCallback			: false,	// remote callback functions
+                                                onSuccess                       : false,        // Always on success (sin importar si la data no ha cambiado) by EBC
 						selfStart			: true,		// start automatically after initializing
 						smartStop			: { active:			false, 	//disabled by default
 												monitorTimeout:	2500, 	// 2.5 seconds
@@ -100,6 +101,8 @@
 									xSmart = jQuery.parseJSON(xhr.getResponseHeader("X-Smartupdater")),
 									xhrEtag, xhrLM;
 								
+                                                                if(es.onSuccess)es.onSuccess(data);
+                                                                
 								if(xSmart) { // remote control 
 								
 									/* remote timeout */

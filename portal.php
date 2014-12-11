@@ -23,54 +23,65 @@
         <script src="js/smartupdater.4.0.js"></script>
 
         <script src="js/jquery.placeholder.min.js"></script>
+        
+        <script src="js/preloaders/jquery.preloaders.js"></script>
 
         <script src="js/script.js"></script>
 
         <script type="text/javascript">
             $(function () {
 
-                $('#menu-grupos, #menu-dispositivos, #menu-creditos').colorbox({iframe:true, width:'520px', height:'75%', opacity: 0.5});
+                $('#menu-grupos, #menu-dispositivos').colorbox({iframe:true, width:'520px', height:'75%', opacity: 0.5});
 
                 listar();
-
+                
             });
 	
             function listar(){
                 $('#lista').load('portal_listar.php', function(){
-                    
+                   
                     $('#lista .dispositivos').each(function(){
                         
                         var id = $(this).val();
                         var ip = $(this).attr('id');
+                        var dp = $(this);
+                        var flag_error = false;
                         
-                        $(this).smartupdater(
+                        dp.smartupdater(
                             {
                                 url : 'portal_getdata.php?id='+id, 
-                                minTimeout: 3000, //Aumentar a 5000
+                                minTimeout: 3000,
                                 dataType: 'json',
-                                maxFailedRequests: 5, //Aumentar a 10
+                                maxFailedRequests: 3,
                                 maxFailedRequestsCb: function(xhr, textStatus, errorThrown){
-                                    console.log(xhr);//Recuperar el mensaje de error 'unnable connect' ó 'token invalido'
-//                                    error("Problemas en la conexion con el dispositivo " + ip, function(){
+//                                    console.log(xhr);
+                                    error('Problemas con el dispositivo ' + ip + ':<br/>' + xhr.responseText + '<br/>', function(){
 //                                        window.location.reload();
-                                        //Deshabilitar botones con unbind
-//                                        $('.id-'+id).fadeTo('slow', 0.3).append($('<div>XXXX</div>').css({
-//                                            display: 'inline-block',
-//                                            width: '200px',
-//                                            height: '200px',
-//                                            background: 'red',
-//                                            position: 'absolute',
-//                                            display: 'table',
-//                                            margin: '0 auto'
-//                                            marginLeft: 'auto'
-//                                        }));
-//                                        console.log(id)
-//                                        $('.id-'+ip).hide();
-//                                    });
+                                         if(flag_error){
+                                            $('.id-'+id).find('.loading').fadeTo('slow', 0.1).remove();
+                                            $('.id-'+id).fadeTo('slow', 1);
+                                         }
+                                         $('.id-'+id).append($('<div/>').addClass('disable'));
+                                         setTimeout(function(){
+                                                $('.id-'+id).each(function(){
+                                                   $(this).append($('<div/>').addClass('loading').preloader({src:'js/preloaders/sprites.png'}));
+                                                });
+                                                $('.id-'+id).fadeTo('slow', 0.3);
+                                             $('.id-'+id).find('div.disable').remove();
+                                             dp.smartupdater('restart');
+                                         }, 60000);
+                                    });
+                                    flag_error = true;
+                                },
+                                onSuccess: function(data){ //on always success (implementado por EBC)
+                                    if(flag_error){
+                                        $('.id-'+id).find('.loading').fadeTo('slow', 0.1).remove();
+                                        $('.id-'+id).fadeTo('slow', 1);
+                                    }
                                 }
-                            }, function (data) {
-                                console.log(data)
-                                if(data != null){
+                            }, function (data) { //onchange data
+//                                console.log(data)
+                                if(data !== null){
                                     
                                     $(data).each(function(){
                                         
@@ -101,7 +112,7 @@
                         $(".cb-enable", $(this)).click(function(){
                             var btn = $(this);
                             $.post('portal_setdata.php', {'dispositivo_id': dispositivo_id, 'pin_id': pin_id, 'cmd': 'lighton'}, function(data){
-                                if(data!= null && data.status == 1){
+                                if(data!== null && data.status == 1){
                                     $(btn).addClass('selected').parents('.switch').find('.cb-disable').removeClass('selected');
                                     $(btn).parents('.container').find('.container-header').addClass('selected');  
                                 }
@@ -113,7 +124,7 @@
                         $(".cb-disable", $(this)).click(function(){
                             var btn = $(this);
                             $.post('portal_setdata.php', {'dispositivo_id': dispositivo_id, 'pin_id': pin_id, 'cmd': 'lightoff'}, function(data){
-                                if(data!= null && data.status == 1){
+                                if(data!== null && data.status == 1){
                                     $(btn).addClass('selected').parents('.switch').find('.cb-enable').removeClass('selected');
                                     $(btn).parents('.container').find('.container-header').removeClass('selected');
                                 }
@@ -140,7 +151,6 @@
                 <li><a id="menu-portal" href="portal.php">Inicio</a></li>
                 <li><a id="menu-grupos" href="grupos.php" >Grupos</a></li>
                 <li><a id="menu-dispositivos" href="dispositivos.php" >Dispositivos</a></li>
-                <li><a id="menu-creditos" href="img/credits.jpg" >Cr&eacute;ditos</a></li>
                 <li><a id="menu-salir" href="#">Salir</a></li>
             </ul>
         </div>
@@ -152,7 +162,7 @@
         </div>
         
         <div id="footer">
-            Todos los Derechos Reservados <?php echo date('Y')?>
+            <a href="https://github.com/ebenites/airduino" target="_blank">AirDuino</a> &COPY; <?php echo date('Y')?> <a href="mailto:erick.benites@gmail.com">erick.benites</a>
         </div>
 
     </body>
