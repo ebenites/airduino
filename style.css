@@ -596,7 +596,7 @@ form.ligthform .row > label{
 /* Arduino module */
 
 .group{
-	border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -804,4 +804,12 @@ div.dialog-error .ui-dialog-titlebar-close{
     margin-top: 2px;
     width: 24px;
     height: 24px;
+}
+
+.empty{
+    text-align: center;
+    padding: 10px;
+    color: #ccc;
+    font-size: 13px;
+    text-shadow:1px 1px 1px #fff;
 }

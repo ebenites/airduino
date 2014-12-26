@@ -5,7 +5,7 @@ class PortalDAO {
     public static function load() {
         $pdo = Conexion::getConexion();
         $grupos = array();
-        $query = "SELECT * FROM grupo g WHERE EXISTS(SELECT * FROM pin WHERE grupo_id=g.id) ORDER BY nombre";
+        $query = "SELECT * FROM grupo g WHERE EXISTS(SELECT * FROM pin p WHERE p.grupo_id=g.id AND p.estado=1) ORDER BY nombre";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         while ($grupo = $stmt->fetch(PDO::FETCH_OBJ)) {

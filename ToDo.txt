@@ -1,5 +1,0 @@
-login
-
-iconos
-  configurar
-  desactivar terminal

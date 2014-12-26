@@ -2,7 +2,7 @@
 SQLyog Ultimate v9.63 
 MySQL - 5.5.24-log : Database - airdruino
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
