@@ -22,3 +22,18 @@ foreach(glob('classes/*.php') as $file) {
 }
 
 session_start();
+
+/*** Seguridad ***/
+
+if(basename($_SERVER['REQUEST_URI'], ".php") != 'login'){
+    if(!isset($_SESSION['usuario'])){
+        if(basename($_SERVER['REQUEST_URI'], ".php") == 'portal'){
+            Flash::set('Acceso no autorizado, debe iniciar sesión');
+            header('location: login.php');
+            exit();
+        }else{
+            header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+            die('Acceso no autorizado, debe iniciar sesión');
+        }
+    }
+}

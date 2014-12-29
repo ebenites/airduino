@@ -1,3 +1,6 @@
+<?php
+require_once './config.php';
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -143,7 +146,7 @@
         
         <div id="header">
             <img alt="logo" src="img/logo.png" height="60"/>
-            <div class="welcome">Bienvenido: Dr. Arduino</div>
+            <div class="welcome">Bienvenido: <?php $user = $_SESSION['usuario']; echo $user->nombres;?></div>
         </div>
 
         <div id="menu">
@@ -151,7 +154,7 @@
                 <li><a id="menu-portal" href="portal.php">Inicio</a></li>
                 <li><a id="menu-grupos" href="grupos.php" >Grupos</a></li>
                 <li><a id="menu-dispositivos" href="dispositivos.php" >Dispositivos</a></li>
-                <li><a id="menu-salir" href="#">Salir</a></li>
+                <li><a id="menu-salir" href="logout.php">Salir</a></li>
             </ul>
         </div>
         

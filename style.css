@@ -334,28 +334,6 @@ h3{
 	font-size: 14px;
 }
 
-.login-div{
-	width: 470px; 
-	position: fixed; 
-	top: 50%; 
-	left: 50%; 
-	margin-top: -40px; 
-	margin-left: -235px; 
-	background-color: white; 
-	padding: 16px;
-	
-	-webkit-box-shadow: #999 0px 0px 6px 3px; /*color x y blur*/
-	-moz-box-shadow: #999 0px 0px 6px 3px;
-	box-shadow: #999 0px 0px 6px 3px;
-    
-    -webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-}
-.login-div form{
-	margin-bottom: 0px;
-}
-
 #popup {
     background-color: #fff;
     border-radius: 10px 10px 10px 10px;
@@ -591,6 +569,36 @@ form.ligthform .row > input, form.ligthform .row > label{
 form.ligthform .row > label{
     padding-right: 5px;
     text-align: right;
+}
+
+/* login form */
+
+.login-div{
+    /*width: 410px;*/ 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    margin-top: -40px; 
+    margin-left: -205px; 
+    background-color: white; 
+    padding: 16px;
+
+    -webkit-box-shadow: #999 0px 0px 6px 3px; /*color x y blur*/
+    -moz-box-shadow: #999 0px 0px 6px 3px;
+    box-shadow: #999 0px 0px 6px 3px;
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+.login-div form{
+    margin-bottom: 0px;
+}
+.login-div form fieldset{
+    padding: 20px;
+}
+.login-div input[type="submit"]{
+    margin-right: 0px;
 }
 
 /* Arduino module */

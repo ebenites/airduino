@@ -1,5 +1,5 @@
 <?php
-require_once './config.php';
+require_once './config.php'; 
 try{
     
     if(!isset($_POST['dispositivo_id']) || !isset($_POST['pin_id']) || !isset($_POST['cmd']) 

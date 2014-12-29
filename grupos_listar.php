@@ -5,6 +5,7 @@ try{
     $lista = GrupoDAO::listar();
     
 }catch(Exception $e){
+    header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
     die("ERROR: " . $e->getMessage());
 }
 ?>
