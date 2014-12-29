@@ -7,10 +7,10 @@ try{
         if(!isset($_POST['usuario']) || strlen($_POST['usuario']) == 0 || !isset($_POST['clave']))
             throw new Exception("No se especificado los parametros requeridos");
         
-        $server_ip = "192.168.73.23";
-        $domain = "tecsup.edu.pe";
-        $ldap_dn = "dc=TECSUP-LIM,dc=LOCAL";
-        $ldap_group = "CN=AirDuino-Admin,OU=Sistemas,OU=Grupos,DC=TECSUP-LIM,DC=LOCAL";
+        $server_ip = LDAP_SERVER;
+        $domain = LDAP_DOMAIN;
+        $ldap_dn = LDAP_DN;
+        $ldap_group = LDAP_GROUP;
         $username = $_POST['usuario'];
         $userpass = $_POST['clave'];
         
