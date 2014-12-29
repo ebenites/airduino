@@ -12,13 +12,13 @@ Sistema de control de ahorro de energía con arduino.
 
 ### Seguridad
 
-Las cuentas de usuario serán registradas en el servidor LDAP y deben ser miembros de un grupo especìfico.
+Las cuentas de usuario serán registradas en el servidor LDAP y deben ser miembros de un grupo específico.
 
-Los parámetros de configuración del servidor LDAP están en **config.php*.
+Los parámetros de configuración del servidor LDAP están en **config.php**.
 
 ### Base de datos
 
-Los parámetros de configuración de la base de datos está en **config.php*
+Los parámetros de configuración de la base de datos está en **config.php**
 
 ### Créditos
 
